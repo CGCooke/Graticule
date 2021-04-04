@@ -69,7 +69,7 @@ requests==2.25.1
 scikit-learn==0.24.1
 scipy==1.6.0
 Send2Trash==1.5.0
-setuptools==49.6.0.post20210108
+setuptools
 six==1.15.0
 snowballstemmer==2.1.0
 Sphinx==3.5.3
