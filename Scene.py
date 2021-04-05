@@ -28,6 +28,17 @@ The position, orientation, and ID of a tag, as observed by the camera.
 * Coordinate System
 '''
 
+import glob
+import numpy as np
+import cv2
+import cv2.aruco as aruco
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+
+from scipy.spatial.transform import Rotation as Rot
+from scipy.optimize import least_squares
+from scipy.sparse import lil_matrix
+
 
 class Scene(object):
 	"""docstring for Scene"""
@@ -45,9 +56,14 @@ class Tag(object):
 
 class Observation(object):
 	"""docstring for Observation"""
-	def __init__(self):
-		pass
+	def __init__(self, img_path):
+		self.img_path = []
+		self.Camera = Camera()
+		self.TagObservations = []
 
+	def extract_tags(self):
+		pass
+		
 class Camera(object):
 	"""docstring for Camera"""
 	def __init__(self):
@@ -58,8 +74,8 @@ class TagObservation(object):
 	def __init__(self):
 		pass
 
-class CoordinateSystem(object):
-	"""docstring for CoordinateSystem"""
+class Pose(object):
+	"""docstring for Pose"""
 	def __init__(self):
 		pass
 		
