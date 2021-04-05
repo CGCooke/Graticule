@@ -3,6 +3,7 @@ Pose Network initialisation using ArUco tags.
 
 
 ***
+
 ## Algorithm Overview
 * Detect tags
 * Find orientation of tags w.r.t camera
@@ -30,19 +31,17 @@ A camera, with associated intrinsic and extrinsic parameters.
 ###### Camera Intrinsics
 Parameters internal to the camera. 
 
-* Focal Length
-* Principal point
-* Radial Distortion parameters
-
-
 ###### Camera Extrinsics
 The position and orientation of the camera.
 
+####### Coordinate System
 
 ##### Tag
 The position, orientation, and ID of a tag.
 
+####### Coordinate System
 
+***
 
 
 ## Bundle Adjustment
@@ -58,5 +57,7 @@ Fundamentally, we need to provide it with 4 things.
 3. An array defining the sparsity structure of the jacobian matrix (jac_sparsity_matrix). 
 4. Arguments passed to our function bundle_adjustment_function (bundle_adjustment_function_args).
 
+
+***
 
 Notes: Need to use pip list --format=freeze > requirements.txt for requirements.
