@@ -31,32 +31,36 @@ The position, orientation, and ID of a tag, as observed by the camera.
 
 class Scene(object):
 	"""docstring for Scene"""
-	def __init__(self, arg):
-		self.arg = arg
+	def __init__(self, img_dir, aruco_tag_type):
+		self.img_dir = img_dir
+		self.aruco_tag_type = aruco_tag_type
+		self.Tags = []
+		self.Observations = []
+
 
 class Tag(object):
 	"""docstring for Tag"""
-	def __init__(self, arg):
-		self.arg = arg
+	def __init__(self):
+		pass
 
 class Observation(object):
 	"""docstring for Observation"""
-	def __init__(self, arg):
-		self.arg = arg
+	def __init__(self):
+		pass
 
 class Camera(object):
 	"""docstring for Camera"""
-	def __init__(self, arg):
-		self.arg = arg
+	def __init__(self):
+		pass
 
 class TagObservation(object):
 	"""docstring for TagObservation"""
-	def __init__(self, arg):
-		self.arg = arg
+	def __init__(self):
+		pass
 
 class CoordinateSystem(object):
 	"""docstring for CoordinateSystem"""
-	def __init__(self, arg):
-		self.arg = arg
+	def __init__(self):
+		pass
 		
 		
