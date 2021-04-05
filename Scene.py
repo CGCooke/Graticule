@@ -34,24 +34,25 @@ class Scene(object):
 	def __init__(self, arg):
 		self.arg = arg
 
+class Tag(object):
+	"""docstring for Tag"""
+	def __init__(self, arg):
+		self.arg = arg
 
 class Observation(object):
 	"""docstring for Observation"""
 	def __init__(self, arg):
 		self.arg = arg
 
-
 class Camera(object):
 	"""docstring for Camera"""
 	def __init__(self, arg):
 		self.arg = arg
 
-
-class Tag(object):
-	"""docstring for Tag"""
+class TagObservation(object):
+	"""docstring for TagObservation"""
 	def __init__(self, arg):
 		self.arg = arg
-
 
 class CoordinateSystem(object):
 	"""docstring for CoordinateSystem"""
