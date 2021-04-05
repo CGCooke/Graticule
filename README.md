@@ -16,13 +16,33 @@ Pose Network initialisation using ArUco tags.
 
 ## Scene management
 
+A captured scene can be described using a hierarchy of objects.
+
 ### Scene
+A collection of photos.
 
 #### Photo
+An image taken by a camera, which contains (0) or more tags.
 
 ##### Camera
+A camera, with associated intrinsic and extrinsic parameters.
+
+###### Camera Intrinsics
+Parameters internal to the camera. 
+
+* Focal Length
+* Principal point
+* Radial Distortion parameters
+
+
+###### Camera Extrinsics
+The position and orientation of the camera.
+
 
 ##### Tag
+The position, orientation, and ID of a tag.
+
+
 
 
 ## Bundle Adjustment
@@ -34,7 +54,7 @@ Fundamentally, the bundle adjustment is performed by scipy.optimize.least_square
 Fundamentally, we need to provide it with 4 things.
 
 1. A function which computes the vector of residuals (bundle_adjustment_function).
-2. An initial estimate of the independant variables (x0).
+2. An initial estimate of the independent variables (x0).
 3. An array defining the sparsity structure of the jacobian matrix (jac_sparsity_matrix). 
 4. Arguments passed to our function bundle_adjustment_function (bundle_adjustment_function_args).
 
