@@ -4,6 +4,18 @@ Pose Network initialisation using ArUco tags.
 
 ***
 
+## Introduction
+
+Given a set of images, which contain observations of ArUCo tags, how can we determine the relative position of both the cameras and the tags?
+
+
+Essentially we have two phases.
+
+1. Collecting a set of observations.
+2. Combining these observations into a coherent, global view.
+
+***
+
 ## Algorithm Overview
 * Detect tags
 * Find orientation of tags w.r.t camera
@@ -15,15 +27,21 @@ Pose Network initialisation using ArUco tags.
 * Repeat
 
 
+***
+
 ## Scene management
 
 A captured scene can be described using a hierarchy of objects.
 
 ### Scene
-A collection of photos.
+A collection of photos and tags.
 
-#### Photo
-An image taken by a camera, which contains (0) or more tags.
+#### Tag
+A tag, with a position, orientation, and ID.
+* Coordinate System
+
+#### Observation
+An observation/image taken by a camera, which observed (0) or more tags.
 
 ##### Camera
 A camera, with associated intrinsic and extrinsic parameters.
@@ -33,13 +51,11 @@ Parameters internal to the camera.
 
 ###### Camera Extrinsics
 The position and orientation of the camera.
+* Coordinate System
 
-####### Coordinate System
-
-##### Tag
-The position, orientation, and ID of a tag.
-
-####### Coordinate System
+##### Tag Observation
+The position, orientation, and ID of a tag, as observed by the camera.
+* Coordinate System
 
 ***
 
