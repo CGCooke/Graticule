@@ -38,7 +38,7 @@ A collection of photos and tags.
 
 #### Tag
 A tag, with a position, orientation, and ID.
-* Coordinate System
+* Pose
 
 #### Observation
 An observation/image taken by a camera, which observed (0) or more tags.
@@ -51,11 +51,11 @@ Parameters internal to the camera.
 
 ###### Camera Extrinsics
 The position and orientation of the camera.
-* Coordinate System
+* Pose
 
 ##### Tag Observation
 The position, orientation, and ID of a tag, as observed by the camera.
-* Coordinate System
+* Pose
 
 ***
 
