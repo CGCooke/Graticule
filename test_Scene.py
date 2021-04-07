@@ -4,7 +4,7 @@ import numpy as np
 
 def test_Scene():
 	scene = Scene('Test_data/*.jpg')
-	assert scene.img_dir = 'Test_data/*.jpg'
+	assert scene.img_dir == 'Test_data/*.jpg'
 
 def test_Observation():
 	observation = Observation('Test_data/0.jpg', camera_id = 0)
