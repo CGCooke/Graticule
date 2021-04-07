@@ -44,8 +44,17 @@ class Scene(object):
 	"""docstring for Scene"""
 	def __init__(self, img_dir):
 		self.img_dir = img_dir
-		self.Tags = []
+		self.Observed_Tag_IDs = set()
 		self.Observations = []
+
+	def load_tags(self):
+		for camera_id, f_str in enumerate(sorted(glob.glob('Test_data/*.jpg'))):
+			observation = Observation(f_str, camera_id = camera_id)
+			observation.extract_tags()
+			self.Observations.append(observation)			
+			for tag in observation.TagObservations:
+				self.Observed_Tag_IDs.add(tag.tag_id)
+
 
 class Tag(object):
 	"""docstring for Tag"""

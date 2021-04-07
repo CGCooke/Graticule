@@ -1,4 +1,5 @@
 from Scene import Scene, Observation, Camera, TagObservation
+import glob
 import cv2
 import numpy as np
 
@@ -16,3 +17,11 @@ def test_Observation():
 			assert np.allclose(observation.t, np.array([[-3.3121481], [-3.51199432], [20.23151067]]))
 			assert np.allclose(observation.rotation.as_rotvec(), np.array([1.69683488, 1.6904307, -0.79607287]))
 			assert observation.tag_id == 'Tag_0'
+
+def test_Multiple_Observations():
+	scene = Scene('Test_data/*.jpg')
+	scene.load_tags()
+	assert len(scene.Observations) == 36
+	assert scene.Observed_Tag_IDs == set({'Tag_0', 'Tag_1', 'Tag_2', 'Tag_3'})
+
+()
