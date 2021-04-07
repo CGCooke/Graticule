@@ -44,13 +44,21 @@ class Scene(object):
 	"""docstring for Scene"""
 	def __init__(self, img_dir):
 		self.img_dir = img_dir
-		self.Tags = []
+		self.Observed_Tag_IDs = set()
 		self.Observations = []
 
-class Tag(object):
+	def load_tags(self):
+		for camera_id, f_str in enumerate(sorted(glob.glob('Test_data/*.jpg'))):
+			observation = Observation(f_str, camera_id = camera_id)
+			observation.extract_tags()
+			self.Observations.append(observation)			
+			for tag in observation.TagObservations:
+				self.Observed_Tag_IDs.add(tag.tag_id)
+
+class Tag(Pose):
 	"""docstring for Tag"""
 	def __init__(self):
-		self.estimated_pose = None
+		Pose.__init__(self)
 		self.tag_id = None
 
 class Observation(object):
@@ -70,11 +78,12 @@ class Observation(object):
 
 		points_3d[:,0:2] -= marker_size/2.0
 
-
 		arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
 		arucoParams = cv2.aruco.DetectorParameters_create()
+
 		img = cv2.imread(self.img_path)
 		gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # change img to grayscale
+		
 		(corners, ids, rejected) = cv2.aruco.detectMarkers(gray, arucoDict, parameters = arucoParams)
 		
 		for tag_corners, tag_id in zip(corners, ids):
@@ -86,7 +95,6 @@ class Observation(object):
 			tag_observation.t = t
 			tag_observation.coordinate_system = f'Camera_{self.camera_id}'
 			self.TagObservations.append(tag_observation)
-
 
 	def find_tag_pose(self, points_3d, points_2d):
 		K = self.Camera.K
@@ -118,8 +126,6 @@ class CameraIntrinsics(object):
 					  [0.0   , 0.0   ,    1.0]])
 
 		self.dist = np.array([[0],[0],[0],[0],[0]])
-
-
 
 class Camera(Pose, CameraIntrinsics):
 	"""docstring for Camera"""
