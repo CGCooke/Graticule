@@ -46,6 +46,8 @@ class Scene(object):
 		self.img_dir = img_dir
 		self.Observed_Tag_IDs = set()
 		self.Observations = []
+		self.origin_coordinate_system = None
+		self.Tags = {}
 
 	def load_tags(self):
 		for camera_id, f_str in enumerate(sorted(glob.glob('Test_data/*.jpg'))):
@@ -55,11 +57,22 @@ class Scene(object):
 			for tag in observation.TagObservations:
 				self.Observed_Tag_IDs.add(tag.tag_id)
 
+		for tag_id in self.Observed_Tag_IDs:
+			self.Tags[tag_id] = Tag(tag_id)
+
+
+	def set_global_origin(self, tag_id):
+		assert tag_id in self.Observed_Tag_IDs
+
+		self.Tags[tag_id].is_origin = True
+		self.origin_coordinate_system = tag_id
+	
 class Tag(Pose):
 	"""A tag, with a position, orientation, and ID."""
-	def __init__(self):
+	def __init__(self, tag_id):
 		Pose.__init__(self)
-		self.tag_id = None
+		self.tag_id = tag_id
+		self.is_origin = False
 
 class Observation(object):
 	"""docstring for Observation"""

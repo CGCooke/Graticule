@@ -24,3 +24,21 @@ def test_Multiple_Observations():
 	assert len(scene.Observations) == 36
 	assert scene.Observed_Tag_IDs == set({'Tag_0', 'Tag_1', 'Tag_2', 'Tag_3'})
 
+def test_Multiple_Observations():
+	scene = Scene('Test_data/*.jpg')
+	scene.load_tags()
+	assert len(scene.Observations) == 36
+	assert scene.Observed_Tag_IDs == set({'Tag_0', 'Tag_1', 'Tag_2', 'Tag_3'})
+	assert sorted(list(scene.Tags.keys())) == ['Tag_0', 'Tag_1', 'Tag_2', 'Tag_3']
+	
+def test_set_global_origin():
+	scene = Scene('Test_data/*.jpg')
+	
+	scene.load_tags()
+	
+	assert scene.origin_coordinate_system == None
+	assert scene.Tags['Tag_0'].is_origin == False
+	scene.set_global_origin('Tag_0')
+	
+	assert scene.origin_coordinate_system == 'Tag_0'
+	assert scene.Tags['Tag_0'].is_origin == True
