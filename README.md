@@ -17,9 +17,8 @@ Essentially we have two phases.
 ***
 
 ## Algorithm Overview
-:white_check_mark: Detect tags 
-:white_check_mark: Find orientation of tags w.r.t camera
-
+* Detect tags :white_check_mark:
+* Find orientation of tags w.r.t camera :white_check_mark:
 * Set one tag as a global origin 
 * Add an image which shares one or more tags
 * Position/Orientate the new camera to w.r.t origin
@@ -32,7 +31,6 @@ Essentially we have two phases.
 ***
 
 ## Scene management
-
 A captured scene can be described using a hierarchy of objects.
 
 ### Scene
