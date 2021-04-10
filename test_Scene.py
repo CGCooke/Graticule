@@ -4,6 +4,8 @@ import cv2
 import numpy as np
 from scipy.spatial.transform import Rotation as Rot
 
+import matplotlib.pyplot as plt
+
 def test_Scene():
 	scene = Scene('Test_data/*.jpg')
 	assert scene.img_dir == 'Test_data/*.jpg'
@@ -45,3 +47,37 @@ def test_set_global_origin():
 
 	assert np.allclose(scene.Tags['Tag_0'].t,np.array([[0.0], [0.0], [0.0]]))
 	assert np.allclose(scene.Tags['Tag_0'].rotation.as_matrix(), np.eye(3))
+
+def test_update_camera_coordinate_systems():
+	scene = Scene('Test_data/*.jpg')
+	scene.load_tags()
+	scene.set_global_origin('Tag_0')
+
+	for observation in scene.Observations:
+		assert observation.Camera.t == None
+		assert observation.Camera.rotation == None
+	
+	scene.update_camera_coordinate_systems()
+
+	for observation in scene.Observations:
+		if scene.origin_coordinate_system not in observation.TagObservations.keys():
+			assert observation.Camera.t == None
+			assert observation.Camera.rotation == None
+
+	
+	ground_truth = np.genfromtxt('Test_data/Camera_Locations.csv',delimiter=',',skip_header=1)
+
+	for observation in scene.Observations:
+		if scene.origin_coordinate_system in observation.TagObservations.keys():			
+			image_index = int(observation.img_path.split('/')[1].split('.jpg')[0])
+			
+			[i, X, Y, Z] = ground_truth[image_index ]
+			t = observation.Camera.t.ravel()
+
+			error_units = np.sqrt((X-t[0])**2+(Y-t[1])**2)
+			assert error_units < 1.0
+
+	
+
+
+

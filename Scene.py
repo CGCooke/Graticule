@@ -75,24 +75,24 @@ class Scene(object):
 		# For each camera
 		# Check to see if it can see a tag that is in the global coordinate system
 		# If so, find the camera's position and orientation in the global coordinate system.
-		pass 
-		#for observation in self.Observations:
-		#	if self.origin_coordinate_system in observation.TagObservations.keys():
+		for observation in self.Observations:
+			if self.origin_coordinate_system in observation.TagObservations.keys():
 				#Find Camera position & rotation wrt origin tag.
-				
+				tag_observation = observation.TagObservations[self.origin_coordinate_system]
 
-				#C = - np.dot(R.T,tvec)
-				#R = Rot.from_matrix(R.T).as_matrix()
+				#Find the camera's orientation w.r.t the origin tag
+				camera_R = tag_observation.rotation.as_matrix().T
 
+				#Find the camera's position w.r.t the origin tag
+				camera_t = - np.dot(tag_observation.rotation.as_matrix().T, tag_observation.t)
 
-			#First check to see if we can see the origin tag
+				observation.Camera.rotation = Rot.from_matrix(camera_R) 
+				observation.Camera.t = camera_t
 
-			#Else let's look for another tag
-
-
-		#	for tag_observation in observation.TagObservations:
-		#		if tag_observation
-			
+			else:
+				pass
+				#Else let's look for another tag
+				#Let's worry about this later
 
 
 
