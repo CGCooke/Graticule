@@ -17,20 +17,20 @@ Essentially we have two phases.
 ***
 
 ## Algorithm Overview
-* Detect tags
-* Find orientation of tags w.r.t camera
-* Set a tag as the origin image coordinate system
-* Orientate the other tags in the image to the origin tag
+* Detect tags :white_check_mark:
+* Find orientation of tags w.r.t camera :white_check_mark:
 * Set one tag as a global origin 
 * Add an image which shares one or more tags
+* Position/Orientate the new camera to w.r.t origin
+* Position/Orientate new, previously unseen tags w.r.t origin
 * Perform bundle adjustment
+* Re-orient origin tag back to origin
 * Repeat
 
 
 ***
 
 ## Scene management
-
 A captured scene can be described using a hierarchy of objects.
 
 ### Scene
