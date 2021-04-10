@@ -34,14 +34,14 @@ import cv2
 from scipy.spatial.transform import Rotation as Rot
 
 class Pose(object):
-	"""docstring for Pose"""
+	"""The position and orientation of either a tag or a camera"""
 	def __init__(self):
 		self.rotation = None
 		self.t = None
 		self.coordinate_system = None
 
 class Scene(object):
-	"""docstring for Scene"""
+	"""A collection of observations and tags."""
 	def __init__(self, img_dir):
 		self.img_dir = img_dir
 		self.Observed_Tag_IDs = set()
@@ -56,7 +56,7 @@ class Scene(object):
 				self.Observed_Tag_IDs.add(tag.tag_id)
 
 class Tag(Pose):
-	"""docstring for Tag"""
+	"""A tag, with a position, orientation, and ID."""
 	def __init__(self):
 		Pose.__init__(self)
 		self.tag_id = None
@@ -112,7 +112,7 @@ class Observation(object):
 		#R = Rot.from_matrix(R.T).as_matrix()
 
 class CameraIntrinsics(object):
-	"""docstring for CameraIntrinsics"""
+	"""Parameters internal to the camera. """
 	def __init__(self):
 		focal_length_mm = 50 #mm
 		width_pixels = 800.0
@@ -128,7 +128,7 @@ class CameraIntrinsics(object):
 		self.dist = np.array([[0],[0],[0],[0],[0]])
 
 class Camera(Pose, CameraIntrinsics):
-	"""docstring for Camera"""
+	"""A camera, with associated intrinsic and extrinsic parameters."""
 	def __init__(self, camera_id):
 		Pose.__init__(self)
 		CameraIntrinsics.__init__(self)

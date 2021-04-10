@@ -23,3 +23,4 @@ def test_Multiple_Observations():
 	scene.load_tags()
 	assert len(scene.Observations) == 36
 	assert scene.Observed_Tag_IDs == set({'Tag_0', 'Tag_1', 'Tag_2', 'Tag_3'})
+
