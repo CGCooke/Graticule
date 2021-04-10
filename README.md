@@ -61,7 +61,7 @@ The position, orientation, and ID of a tag, as observed by the camera.
 
 ## Global Orientation
 
-* Set one tag as a global origin 
+* Set one tag as a global origin :white_check_mark:
 * Find cameras which can observe this tag
 * Update camera locations
 * Update associated tags

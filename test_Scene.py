@@ -2,6 +2,7 @@ from Scene import Scene, Observation, Camera, TagObservation
 import glob
 import cv2
 import numpy as np
+from scipy.spatial.transform import Rotation as Rot
 
 def test_Scene():
 	scene = Scene('Test_data/*.jpg')
@@ -11,12 +12,11 @@ def test_Observation():
 	observation = Observation('Test_data/0.jpg', camera_id = 0)
 	observation.extract_tags()
 
-	for observation in observation.TagObservations:
-		if observation.tag_id == 'Tag_0':
-			assert observation.coordinate_system == 'Camera_0'			
-			assert np.allclose(observation.t, np.array([[-3.3121481], [-3.51199432], [20.23151067]]))
-			assert np.allclose(observation.rotation.as_rotvec(), np.array([1.69683488, 1.6904307, -0.79607287]))
-			assert observation.tag_id == 'Tag_0'
+	observation = observation.TagObservations['Tag_0']
+	assert observation.coordinate_system == 'Camera_0'			
+	assert np.allclose(observation.t, np.array([[-3.3121481], [-3.51199432], [20.23151067]]))
+	assert np.allclose(observation.rotation.as_rotvec(), np.array([1.69683488, 1.6904307, -0.79607287]))
+	assert observation.tag_id == 'Tag_0'
 
 def test_Multiple_Observations():
 	scene = Scene('Test_data/*.jpg')
@@ -39,6 +39,9 @@ def test_set_global_origin():
 	assert scene.origin_coordinate_system == None
 	assert scene.Tags['Tag_0'].is_origin == False
 	scene.set_global_origin('Tag_0')
-	
+
 	assert scene.origin_coordinate_system == 'Tag_0'
 	assert scene.Tags['Tag_0'].is_origin == True
+
+	assert np.allclose(scene.Tags['Tag_0'].t,np.array([[0.0], [0.0], [0.0]]))
+	assert np.allclose(scene.Tags['Tag_0'].rotation.as_matrix(), np.eye(3))

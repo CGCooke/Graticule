@@ -53,9 +53,10 @@ class Scene(object):
 		for camera_id, f_str in enumerate(sorted(glob.glob('Test_data/*.jpg'))):
 			observation = Observation(f_str, camera_id = camera_id)
 			observation.extract_tags()
-			self.Observations.append(observation)			
-			for tag in observation.TagObservations:
-				self.Observed_Tag_IDs.add(tag.tag_id)
+			self.Observations.append(observation)
+
+			for tag_id in observation.TagObservations.keys():
+				self.Observed_Tag_IDs.add(tag_id)
 
 		for tag_id in self.Observed_Tag_IDs:
 			self.Tags[tag_id] = Tag(tag_id)
@@ -65,7 +66,36 @@ class Scene(object):
 		assert tag_id in self.Observed_Tag_IDs
 
 		self.Tags[tag_id].is_origin = True
+		self.Tags[tag_id].rotation = Rot.from_matrix(np.eye(3))
+		self.Tags[tag_id].t = np.array([[0.0], [0.0], [0.0]])
 		self.origin_coordinate_system = tag_id
+
+
+	def update_camera_coordinate_systems(self):
+		# For each camera
+		# Check to see if it can see a tag that is in the global coordinate system
+		# If so, find the camera's position and orientation in the global coordinate system.
+		pass 
+		#for observation in self.Observations:
+		#	if self.origin_coordinate_system in observation.TagObservations.keys():
+				#Find Camera position & rotation wrt origin tag.
+				
+
+				#C = - np.dot(R.T,tvec)
+				#R = Rot.from_matrix(R.T).as_matrix()
+
+
+			#First check to see if we can see the origin tag
+
+			#Else let's look for another tag
+
+
+		#	for tag_observation in observation.TagObservations:
+		#		if tag_observation
+			
+
+
+
 	
 class Tag(Pose):
 	"""A tag, with a position, orientation, and ID."""
@@ -80,7 +110,7 @@ class Observation(object):
 		self.img_path = img_path
 		self.camera_id = camera_id
 		self.Camera = Camera(camera_id)
-		self.TagObservations = []
+		self.TagObservations = {}
 
 	def extract_tags(self):
 		marker_size = 1.2 #units
@@ -107,7 +137,7 @@ class Observation(object):
 			tag_observation.rotation = R
 			tag_observation.t = t
 			tag_observation.coordinate_system = f'Camera_{self.camera_id}'
-			self.TagObservations.append(tag_observation)
+			self.TagObservations[f'Tag_{int(tag_id)}'] = tag_observation
 
 	def find_tag_pose(self, points_3d, points_2d):
 		K = self.Camera.K
@@ -120,9 +150,7 @@ class Observation(object):
 		t = np.array(tvec)
 		return(R,t)
 		
-		#Find Camera C & R wrt tag.
-		#C = -np.dot(R.T,tvec)
-		#R = Rot.from_matrix(R.T).as_matrix()
+		
 
 class CameraIntrinsics(object):
 	"""Parameters internal to the camera. """
