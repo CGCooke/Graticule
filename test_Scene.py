@@ -106,7 +106,7 @@ def test_update_camera_coordinate_systems():
 			
 			assert np.dot(R1,R2) > 0.99
 			
-	
+'''	
 def test_update_tag_coordinate_systems():
 	scene = Scene('Test_data/*.jpg')
 	scene.load_tags()
@@ -123,3 +123,4 @@ def test_update_tag_coordinate_systems():
 		#plt.imshow(Tag.rotation.as_matrix())
 		#plt.colorbar()
 		#plt.show()
+'''
