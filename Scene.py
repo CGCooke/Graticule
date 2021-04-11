@@ -119,8 +119,9 @@ class Scene(object):
 						
 						self.Tags[tag_id].t = t_global
 						self.Tags[tag_id].rotation = Rot.from_matrix(R_global) 
-						
-					
+						print(self.Tags[tag_id].t)
+		
+
 class Tag(Pose):
 	"""A tag, with a position, orientation, and ID."""
 	def __init__(self, tag_id):
