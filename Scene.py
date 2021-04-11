@@ -89,14 +89,39 @@ class Scene(object):
 				observation.Camera.rotation = Rot.from_matrix(camera_R) 
 				observation.Camera.t = camera_t
 
+				observation.Camera.coordinate_system = self.origin_coordinate_system
 			else:
 				pass
 				#Else let's look for another tag
 				#Let's worry about this later
 
+	def update_tag_coordinate_systems(self):
+		# For each tag
+		# Check to see if it can be seen by a camera in the global coordinate system
+		# If so, tag's and orientation in the global coordinate system.
+
+		for observation in self.Observations:
+			Camera_R = observation.Camera.rotation.as_matrix()
+			Camera_t = observation.Camera.t					
+
+			for tag_id in observation.TagObservations.keys():
+				if tag_id != self.origin_coordinate_system:
+					if self.Tags[tag_id].rotation == None:
+						tag_observation = observation.TagObservations[tag_id]			
+						R = tag_observation.rotation.as_matrix()
+						t = tag_observation.t
+
+						#Rotatation of the tag with respect to the origin
+						R_global = np.dot(Camera_R, R)
+
+						#Position of the tag with respect to the origin
+						t_global = Camera_t - np.dot(R_delta, t)
+
+						self.Tags[tag_id].rotation = Rot.from_matrix(R_global) 
+						#self.Tags[tag_id].t = t_global
 
 
-	
+
 class Tag(Pose):
 	"""A tag, with a position, orientation, and ID."""
 	def __init__(self, tag_id):
@@ -150,8 +175,6 @@ class Observation(object):
 		t = np.array(tvec)
 		return(R,t)
 		
-		
-
 class CameraIntrinsics(object):
 	"""Parameters internal to the camera. """
 	def __init__(self):

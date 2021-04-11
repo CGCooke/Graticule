@@ -77,7 +77,49 @@ def test_update_camera_coordinate_systems():
 			error_units = np.sqrt((X-t[0])**2+(Y-t[1])**2)
 			assert error_units < 1.0
 
+
+
+	for observation in scene.Observations:
+		if scene.origin_coordinate_system in observation.TagObservations.keys():			
+			image_index = int(observation.img_path.split('/')[1].split('.jpg')[0])
+			
+			[i, X, Y, Z] = ground_truth[image_index]
+			
+			R1 = observation.Camera.rotation.as_quat()
+			
+			theta_x_radians = np.radians(-130)
+			theta_z_radians = np.radians(10*image_index + 90)
+
+			R_x = np.array([[1,0,0],
+				[0,np.cos(theta_x_radians),-np.sin(theta_x_radians)],
+				[0,np.sin(theta_x_radians),np.cos(theta_x_radians)]])
+
+			R_z = np.array([[np.cos(theta_z_radians),-np.sin(theta_z_radians),0],
+				[np.sin(theta_z_radians),np.cos(theta_z_radians),0],
+				[0,0,1]])
+
+
+			R_composed = np.dot(R_z, R_x)
+
+			R2 = Rot.from_matrix(R_composed).as_quat()
+
+			
+			assert np.dot(R1,R2) > 0.99
+			
 	
+def test_update_tag_coordinate_systems():
+	scene = Scene('Test_data/*.jpg')
+	scene.load_tags()
+	scene.set_global_origin('Tag_0')
+	scene.update_camera_coordinate_systems()
+	scene.update_tag_coordinate_systems()
 
+	for tag_id in scene.Tags.keys():
+		Tag = scene.Tags[tag_id]
 
-
+		#print(Tag.rotation.as_matrix())
+		#print(Tag.rotation.as_matrix())
+		print(Tag.t)
+		#plt.imshow(Tag.rotation.as_matrix())
+		#plt.colorbar()
+		#plt.show()
