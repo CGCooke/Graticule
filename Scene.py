@@ -108,20 +108,19 @@ class Scene(object):
 				if tag_id != self.origin_coordinate_system:
 					if self.Tags[tag_id].rotation == None:
 						tag_observation = observation.TagObservations[tag_id]			
-						R = tag_observation.rotation.as_matrix()
-						t = tag_observation.t
-
-						#Rotatation of the tag with respect to the origin
-						R_global = np.dot(Camera_R, R)
+						Tag_R = tag_observation.rotation.as_matrix()
+						Tag_t = tag_observation.t
 
 						#Position of the tag with respect to the origin
-						t_global = Camera_t - np.dot(R_delta, t)
-
+						t_global = Camera_t + np.dot(Camera_R, Tag_t)
+						
+						#Rotatation of the tag with respect to the origin
+						R_global = np.dot(Camera_R, Tag_R)
+						
+						self.Tags[tag_id].t = t_global
 						self.Tags[tag_id].rotation = Rot.from_matrix(R_global) 
-						#self.Tags[tag_id].t = t_global
-
-
-
+						
+					
 class Tag(Pose):
 	"""A tag, with a position, orientation, and ID."""
 	def __init__(self, tag_id):

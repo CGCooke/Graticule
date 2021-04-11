@@ -67,6 +67,7 @@ def test_update_camera_coordinate_systems():
 	
 	ground_truth = np.genfromtxt('Test_data/Camera_Locations.csv',delimiter=',',skip_header=1)
 
+	#Check cameera positions
 	for observation in scene.Observations:
 		if scene.origin_coordinate_system in observation.TagObservations.keys():			
 			image_index = int(observation.img_path.split('/')[1].split('.jpg')[0])
@@ -77,13 +78,10 @@ def test_update_camera_coordinate_systems():
 			error_units = np.sqrt((X-t[0])**2+(Y-t[1])**2)
 			assert error_units < 1.0
 
-
-
+	#Check camera orientations
 	for observation in scene.Observations:
 		if scene.origin_coordinate_system in observation.TagObservations.keys():			
 			image_index = int(observation.img_path.split('/')[1].split('.jpg')[0])
-			
-			[i, X, Y, Z] = ground_truth[image_index]
 			
 			R1 = observation.Camera.rotation.as_quat()
 			
@@ -100,13 +98,11 @@ def test_update_camera_coordinate_systems():
 
 
 			R_composed = np.dot(R_z, R_x)
-
 			R2 = Rot.from_matrix(R_composed).as_quat()
 
-			
 			assert np.dot(R1,R2) > 0.99
 			
-'''	
+
 def test_update_tag_coordinate_systems():
 	scene = Scene('Test_data/*.jpg')
 	scene.load_tags()
@@ -114,13 +110,24 @@ def test_update_tag_coordinate_systems():
 	scene.update_camera_coordinate_systems()
 	scene.update_tag_coordinate_systems()
 
+	ground_truth = np.genfromtxt('Test_data/Tag_Locations.csv', delimiter=',', skip_header=1)
+
+	#Check tag positions
 	for tag_id in scene.Tags.keys():
 		Tag = scene.Tags[tag_id]
+		[i, X, Y, Z] = ground_truth[int(tag_id[4:])]
+		
+		t = Tag.t.ravel()
+		error_units = np.sqrt((X-t[0])**2+(Y-t[1])**2)
+		assert error_units < 1.0
 
-		#print(Tag.rotation.as_matrix())
-		#print(Tag.rotation.as_matrix())
-		print(Tag.t)
-		#plt.imshow(Tag.rotation.as_matrix())
-		#plt.colorbar()
-		#plt.show()
-'''
+	#Check tag orientations
+	for tag_id in scene.Tags.keys():
+		Tag = scene.Tags[tag_id]
+		
+		R1 = Tag.rotation.as_quat()
+		R2 = Rot.from_matrix(np.eye(3)).as_quat()
+		assert np.dot(R1,R2) > 0.99
+	
+
+test_update_tag_coordinate_systems()	
