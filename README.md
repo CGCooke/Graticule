@@ -19,10 +19,10 @@ Essentially we have two phases.
 ## Algorithm Overview
 * Detect tags :white_check_mark:
 * Find orientation of tags w.r.t camera :white_check_mark:
-* Set one tag as a global origin 
-* Add an image which shares one or more tags
-* Position/Orientate the new camera to w.r.t origin
-* Position/Orientate new, previously unseen tags w.r.t origin
+* Set one tag as a global origin :white_check_mark:
+* Add an image which shares one or more tags  :white_check_mark:
+* Position/Orientate the new camera to w.r.t origin  :white_check_mark:
+* Position/Orientate new, previously unseen tags w.r.t origin  :white_check_mark:
 * Perform bundle adjustment
 * Re-orient origin tag back to origin
 * Repeat
@@ -66,7 +66,6 @@ The position, orientation, and ID of a tag, as observed by the camera.
 * Update camera locations :white_check_mark:
 * Update associated tags :white_check_mark:
 
-
 ***
 
 
@@ -76,12 +75,18 @@ Fundamentally, the bundle adjustment is performed by scipy.optimize.least_square
 
 `scipy.optimize.least_squares(fun = bundle_adjustment_function, x0 = x0, jac_sparsity = jac_sparsity_matrix, args = bundle_adjustment_function_args)`
 
-Fundamentally, we need to provide it with 4 things.
+We need to create:
 
 1. A function which computes the vector of residuals (bundle_adjustment_function).
 2. An initial estimate of the independent variables (x0).
 3. An array defining the sparsity structure of the jacobian matrix (jac_sparsity_matrix). 
 4. Arguments passed to our function bundle_adjustment_function (bundle_adjustment_function_args).
+
+
+State Vector Format:
+:camera::camera::triangular_flag_on_post::triangular_flag_on_post::triangular_flag_on_post:
+
+
 
 
 ***
